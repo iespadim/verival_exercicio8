@@ -6,8 +6,15 @@ public class GerenciaLugares {
         return lugares;
     }
 
-    public int verificaLugar(String FxxAxx) {
-        return 0;
+    public int verificaLugar(String fila_assento) {
+        int fila = new Integer(fila_assento.substring(1,2));
+        int assento = new Integer(fila_assento.substring(3,4));
+
+        switch(verificaLugar(fila,assento)){
+            case 2:
+                break;
+        }
+
     }
 
     public boolean verificaLugar(int fila, int assento) {
