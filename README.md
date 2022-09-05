@@ -1,49 +1,79 @@
-# verival_exercicio8
+#Verificação e validação de software
+- Esta entrega trata da criação de testes para os exercicios 8 e 9 da lista sobre testes baseados em especificação.
 
-8) Exercício “hands-on”:
+## exercício 8 - barcas e passageiros
+para este exercicio foi pedido testes em partições e testes de valor limite.
 
-Uma barca de passageiros tem 1200 lugares organizados em 60 fileiras de 20 lugares cada. O sistema de controle de lugares deve controlar tanto a ocupação dos lugares como a distribuição de peso na barca. Desta forma quando o cliente chega para embarcar ele escolhe um lugar e o sistema deve dizer se o lugar está ocupado ou se ele não pode se sentar ali em função da distribuição de peso. As regras de distribuição de peso são as seguintes:
+###aplicando a técnica de partições
+partições quanto ao local escolhido:
 
-· Os primeiros 100 passageiros só podem se sentar nas fileiras de 1 a 20.
+    a1 - local livre
+    a2 - local ocupado
+    a3 - local invalido
 
-· Os próximos 100 passageiros só podem se sentar nas fileiras de 40 a 60.
+partições quanto a lotação da barca:
 
-· Os demais passageiros podem sentar-se em qualquer lugar livre.
+    b1 - lotacao menor que 100 
+    b2 - lotacao entre 101 e 200
+    b3 - lotacao maior que 200 e menor que 1200
+    b4 - lotação maior que 1200
 
-Os lugares são identificados da seguinte forma: F<nro da fileira>A<nro do assento>. A numeração das fileiras e lugares inicia em 1.
+casos de teste levantados:
 
-Exemplos: F02A12, F45A01, F33A18
+    a1 b1 | a1 b2 | a1 b3 | a1 b4
+    a2 b1 | a2 b2 | a2 b3 | a2 b4
+    a3 b1 | a3 b2 | a3 b3 | a3 b4
 
-A classe “GerenciaLugares” tem um método chamado int verificaLugar(String assento) que pode retornar um dos seguintes valores:
+###aplicando a técnica de valor limite
+para esta tecnica foram encontrados os seguintes intervalos
 
-· 0 – Identificador de assento inválido
+intervalo de passageiros na barca: 0-100
 
-· 1 – Assento ocupado
+    in point: 50
+    on point: 100
+    off point: 101
 
-· 2 – Assento bloqueado devido a distribuição de peso
+intervalo de passageiros na barca: 101-200
 
-· 3 – Ok, assento atribuído ao passageiro.
+    in point: 105
+    on point: 101,200
+    off point: 201,100
 
-Gere um conjunto de casos de teste baseados em particionamento e uma classe driver para testar o método “verificaLugar”.
+intervalo de passageiros na barca: 201-1199
 
-9) Exercício “hands-on”:
+    in point: 345
+    on point: 201,1199
+    off point: 200,1200
 
-Especificação do problema: Um determinado site web deve armazenar o ranking dos 10 melhores jogadores de um determinado game (ordenados por ordem decrescente de pontuação). Cada vez que uma partida oficial ocorre, o administrador do site entra com o nome do jogador e sua pontuação. Se houverem menos de 10 jogadores cadastrados o jogador será inserido no ranking independente de seu score. Na medida em que já houver 10 jogadores cadastrados, novos jogadores só entram se tiverem score maior que o último colocado e sempre que um novo jogador entrar no ranking, o jogador com pontuação mais baixa é eliminado. Os registros devem ser mantidos ordenados em ordem decrescente de pontuação
+## exercício 9 - Ranking e Scores
+###aplicando a técnica de partições
 
-Esqueleto das classes: para atender a especificação, um desenvolvedor criou as classes “Record” e “Ranking” cujo esqueleto pode ser visto na sequência.
+### algumas observações:
+ através da execução dos casos de teste foi possivel observar que ter um contador para a quantidade de scores guardados acarretou em uma exception nos métodos de obter o melhor e o pior score quando não ha nenhum score guardado no ranking
 
-public class Record { public Record(String name, int score) {} public String getName() {} public int getScore() {} public String toString() {} }
+    Ranking.java:58: 
+    java.lang.ArrayIndexOutOfBoundsException: -1
+	at Ranking.worstScore(Ranking.java:58)
 
-public class Ranking {
 
-public Ranking() {}
+partições quanto ao ranking
 
-// Insere novo registro na lista mantendo a ordenação // Retorna true se a inserção foi possível public boolean add(Record record) {} // Retorna à quantidade de registros armazenados public int numRecords() {} // Retorna o i-ésimo registro armazenado ou // null se o valor de i for inválido public Record getScore(int i) {} // Retorna o pior score armazenado // Retorna null se a lista estiver vazia public Record worstScore() {} // Retorna o melhor score armazenado // Retorna null se a lista estiver vazia public Record bestScore() {} }
+    a1 records vazio
+    a2 records cheio
+    a3 records populado
 
-Tarefas:
+partiçoes quanto ao método inserir record
 
-a. Gerar um conjunto de casos de teste para a classe “Ranking” utilizando a técnica de particionamento (gere um conjunto para cada método)
+    b1 - foi possivel inserir
+    b2 - nao foi possivel inserir
 
-b. Usando o JUnit, implementar um driver de teste que exercite a classe “Ranking” com os casos de teste definidos na letra “a”.
+partições quanto ao método obter enésimo record 
 
-c. Solicitar para o professor a implementação da classe “Ranking”, aplicar o driver de teste sobre a mesma e relatar os defeitos encontrados (se houverem).
+    c1 - obtem record em posição existente
+    c2 - obtem record em posição inexistente
+
+partições quanto aos métodos obter pior e melhor record
+
+    d1 - obtem o pior record   
+    d2 - nao ha record
+    e1 - obtem o melhor record
