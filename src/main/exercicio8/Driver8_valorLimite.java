@@ -19,10 +19,12 @@ public class Driver8_valorLimite {
             "F45A08,  200,   3",
             "F30A15,  201,   3",
 
-            //200-1200
+            //200-1199
             "F49A18,  200,   3",
-            "F30A15,  1200,  3",
-            "F30A15,  1201,  0"
+            "F30A15,  1199,  3",
+            //para range acima de 1199 é impossivel simular
+            //"F30A15,  1201,  0"
+
     })
     void testaAssento(String assento, int pessoasNaBarca, int rEsp) {
         GerenciaLugares barca = new GerenciaLugares();
